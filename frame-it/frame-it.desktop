@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Name=%SNAP_INSTANCE%
+GenericName=Ubuntu Frame
+Keywords=Mir;Server;Shell
+Type=Application
+Icon=ubuntu-logo
+Exec=bash -lc '%SNAP_INSTANCE%.shell'
+Terminal=false
+Categories=Utility

@@ -1,0 +1,31 @@
+name: frame-it
+base: core20
+version: '0.1' # just for humans, typically '1.2+git' or '1.3.2'
+summary: Utilities for working with Ubuntu Frame on desktop systems
+description: |
+  *frame-it* makes it easy to use Ubuntu Frame on the desktop:
+  _frame-it.setup_ will install Ubuntu Frame and check the `shell-app` option
+  _frame-it gnome-calendar_ will run gnome-calendar using Ubuntu Frame
+  _snap set frame-it shell-app=gnome-calendar_ sets the `shell-app` option
+  _frame-it.shell_ will run Ubuntu Frame using the `shell-app` option
+  
+  A login shell is provided from the greeter: Logging into "frame-it" will
+  run Ubuntu Frame using the `shell-app` option as a user session
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: classic
+
+apps:
+  frame-it:
+    command: frame-it
+
+  setup:
+    command: frame-it-setup
+
+  shell:
+    command: frame-it-shell
+
+parts:
+  frame-it:
+    plugin: dump
+    source: frame-it

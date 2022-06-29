@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+
+shell_app="$(snapctl get shell-app)"
+
+if [ "$shell_app" != "" ]; then
+  if ! command -v "${shell_app%% *}"; then
+    echo "Not installed: ${shell_app}"
+    exit 1
+  fi
+fi

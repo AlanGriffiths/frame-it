@@ -1,0 +1,26 @@
+#!/bin/bash
+
+wayland_display=${WAYLAND_DISPLAY:-wayland-0}
+
+if [ -O "${XDG_RUNTIME_DIR}/${wayland_display}" ]; then
+  # Choose a (new) WAYLAND_DISPLAY
+	
+  port=0
+  while [ -e "${XDG_RUNTIME_DIR}/wayland-${port}" ]; do
+    ((port+=1))
+  done
+  wayland_display=wayland-${port}
+fi
+
+WAYLAND_DISPLAY="${wayland_display}" ubuntu-frame&
+
+until [ -O "${XDG_RUNTIME_DIR}/${wayland_display}" ]; do
+  if command -v ionotifywait &> /dev/null; then
+    inotifywait -qq --timeout 5 --event create "${XDG_RUNTIME_DIR}"
+  else
+    sleep 1
+  fi
+done
+
+WAYLAND_DISPLAY="${wayland_display}" $@
+kill %1
