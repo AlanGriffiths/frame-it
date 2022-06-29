@@ -29,3 +29,7 @@ parts:
   frame-it:
     plugin: dump
     source: frame-it
+
+architectures:
+  - build-on: amd64
+    run-on: all
