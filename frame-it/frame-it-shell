@@ -1,11 +1,12 @@
-#!/bin/sh -x
+#!/bin/sh
 
 shell_app="$(snapctl get shell-app)"
 
 if [ "$shell_app" = "" ]; then
-  echo "WARNING: shell-app not set (run 'snap set ${SNAP_INSTANCE_NAME} shell-app=...')"
+  echo " ERROR  : shell-app not set (run 'snap set ${SNAP_INSTANCE_NAME} shell-app=...')"
+  exit 1
 elif ! command -v "${shell_app%% *}" > /dev/null; then
-    echo "WARNING: shell-app not installed: ${shell_app}"
+    echo "WARNING : shell-app not installed: ${shell_app}"
 fi
 
 exec "${SNAP_INSTANCE_NAME}" "${shell_app}"

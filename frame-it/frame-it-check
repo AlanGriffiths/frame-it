@@ -1,0 +1,21 @@
+#!/bin/sh
+set -u
+
+if ! command -v ubuntu-frame > /dev/null
+then
+  echo "WARNING : Ubuntu Frame NOT installed. Please run the following:"
+  echo "  sudo snap install ubuntu-frame"
+  echo "  /snap/ubuntu-frame/current/bin/setup.sh"
+else
+  echo "  [OK]  : Ubuntu Frame is installed"
+fi
+
+shell_app="$(snapctl get shell-app)"
+
+if [ "$shell_app" = "" ]; then
+  echo "WARNING : shell-app not set (run 'snap set ${SNAP_INSTANCE_NAME} shell-app=...')"
+elif ! command -v "${shell_app%% *}" > /dev/null; then
+    echo "WARNING : shell-app not installed: ${shell_app}"
+else
+  echo "  [OK]  : shell-app is set (to '${shell_app}') and can be found"
+fi
