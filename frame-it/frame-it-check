@@ -1,21 +1,31 @@
 #!/bin/sh
 set -u
 
+echo "Checking: Ubuntu Frame installation (needed for all commands)"
 if ! command -v ubuntu-frame > /dev/null
 then
-  echo "WARNING : Ubuntu Frame NOT installed. Please run the following:"
+  echo " WARNING: Ubuntu Frame NOT installed. Please run the following:"
   echo "  sudo snap install ubuntu-frame"
-  echo "  /snap/ubuntu-frame/current/bin/setup.sh"
 else
-  echo "  [OK]  : Ubuntu Frame is installed"
+  echo " . OK . : Ubuntu Frame is installed"
 fi
 
-shell_app="$(snapctl get shell-app)"
-
-if [ "$shell_app" = "" ]; then
-  echo "WARNING : shell-app not set (run 'snap set ${SNAP_INSTANCE_NAME} shell-app=...')"
-elif ! command -v "${shell_app%% *}" > /dev/null; then
-    echo "WARNING : shell-app not installed: ${shell_app}"
+echo "Checking: Ubuntu Frame has login-session-control (needed to run a login shell)"
+if ! snap connections ubuntu-frame | grep " :login-session-control" > /dev/null
+then
+  echo " WARNING: ubuntu-frame:login-session-control NOT connected. Please run the following:"
+  echo "  sudo snap connect ubuntu-frame:login-session-control"
 else
-  echo "  [OK]  : shell-app is set (to '${shell_app}') and can be found"
+  echo " . OK . : ubuntu-frame:login-session-control is connected"
+fi
+
+echo "Checking: shell-app option (needed for ${SNAP_INSTANCE_NAME}.shell and to run a login shell)"
+shell_app="$(snapctl get shell-app)"
+if [ "$shell_app" = "" ]; then
+  echo " WARNING: shell-app not set. Please run the following (with the app you choose):"
+  echo "  snap set ${SNAP_INSTANCE_NAME} shell-app=..."
+elif ! command -v "${shell_app%% *}" > /dev/null; then
+    echo " WARNING: shell-app not installed: ${shell_app}"
+else
+  echo " . OK . : shell-app is set (to '${shell_app}') and can be found"
 fi
