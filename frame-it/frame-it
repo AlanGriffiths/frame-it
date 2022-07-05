@@ -12,6 +12,10 @@ if [ -O "${XDG_RUNTIME_DIR}/${wayland_display}" ]; then
   wayland_display=wayland-${port}
 fi
 
+if [ "$DISPLAY" != "" ] && [ -e "$HOME/.Xauthority" ] && [ "$XAUTHORITY" = "" ]; then
+    export XAUTHORITY=$HOME/.Xauthority
+fi
+
 WAYLAND_DISPLAY="${wayland_display}" ubuntu-frame&
 
 until [ -O "${XDG_RUNTIME_DIR}/${wayland_display}" ]; do
