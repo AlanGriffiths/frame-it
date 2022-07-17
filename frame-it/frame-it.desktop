@@ -1,6 +1,6 @@
 [Desktop Entry]
 Version=1.0
-Name=%SNAP_INSTANCE%
+Name=%SNAP_INSTANCE% (%SHELL_APP%)
 GenericName=Ubuntu Frame
 Keywords=Mir;Server;Shell
 Type=Application

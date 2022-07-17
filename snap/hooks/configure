@@ -7,5 +7,9 @@ if [ "$shell_app" != "" ]; then
   if ! command -v "${shell_app%% *}"; then
     echo "Not installed: ${shell_app}"
     exit 1
+  else
+    sed "s/%SNAP_INSTANCE%/${SNAP_INSTANCE_NAME}/g;s/%SHELL_APP%/${shell_app%% *}/g" "$SNAP/frame-it.desktop" > "/usr/share/wayland-sessions/${SNAP_INSTANCE_NAME}.desktop"
   fi
+else
+  rm -f "/usr/share/wayland-sessions/${SNAP_INSTANCE_NAME}.desktop"
 fi

@@ -1,4 +1,0 @@
-#!/bin/sh
-set -eu
-
-sed "s/%SNAP_INSTANCE%/${SNAP_INSTANCE_NAME}/g" "$SNAP/frame-it.desktop" > "/usr/share/wayland-sessions/${SNAP_INSTANCE_NAME}.desktop"
