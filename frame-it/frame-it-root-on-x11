@@ -1,0 +1,40 @@
+#!/bin/sh -e
+
+print_help() {
+  echo " . . . .: Please run the following:"
+  echo "  sudo --preserve-env=XAUTHORITY,DISPLAY $SNAP_INSTANCE_NAME.root-on-x11"
+  echo ""
+  echo " WARNING: Be careful running scripts as root. This one can be viewed at: $0"
+}
+
+if [ "$USER" != "root" ]; then
+  echo " ERROR .: This script needs to be run as root."
+  print_help
+  exit 1
+fi
+
+if [ "${DISPLAY}" = "" ]; then
+  echo " ERROR .: DISPLAY is not set, This is needed to connect to the X server"
+  print_help
+  exit 1
+fi
+
+if [ "${XAUTHORITY}" = "" ]; then
+  echo " WARNING: XAUTHORITY is not set, This is needed to connect to the X server"
+  print_help
+fi
+
+if [ $# -gt 0 ]; then
+  echo " WARNING: any options or arguments are ignored"
+  print_help
+fi
+
+xauthority_copy="${HOME}/.Xauthority"
+
+if [ ! -e "$(dirname "${xauthority_copy}")" ]; then
+  ubuntu-frame --help > /dev/null 2>&1 || true
+fi
+
+cp "${XAUTHORITY}" "${xauthority_copy}"
+XAUTHORITY=${xauthority_copy} ubuntu-frame --platform-display-libs mir:x11 --platform-rendering-libs mir:x11
+rm "${xauthority_copy}"

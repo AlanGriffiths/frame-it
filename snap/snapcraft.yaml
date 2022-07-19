@@ -9,6 +9,7 @@ description: |
   * `frame-it gnome-calendar` will run `gnome-calendar` using Ubuntu Frame
   * `snap set frame-it shell-app=gnome-calendar` sets the `shell-app` option
   * `frame-it.shell` will run Ubuntu Frame using the `shell-app` option
+  * `sudo frame-it.root-on-x11` will run Ubuntu Frame as root using X11
 
   When `shell-app` is set a login shell is provided from the greeter: Logging 
   into "frame-it" will run Ubuntu Frame using the `shell-app` option as a user
@@ -26,6 +27,9 @@ apps:
 
   shell:
     command: frame-it-shell
+
+  root-on-x11:
+    command: frame-it-root-on-x11
 
 parts:
   frame-it:
