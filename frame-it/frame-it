@@ -12,14 +12,8 @@ if [ -O "${XDG_RUNTIME_DIR}/${wayland_display}" ]; then
   wayland_display=wayland-${port}
 fi
 
-if [ "$DISPLAY" != "" ]; then
-  # On hybrid systems Mir's platform autoselection can currently do weird stuff
-  # (It should select X11, not gbm-kms on evdi)
-  export MIR_SERVER_DRIVER_QUIRKS=skip:driver:evdi
-
-  if [ -e "$HOME/.Xauthority" ] && [ "$XAUTHORITY" = "" ]; then
-      export XAUTHORITY=$HOME/.Xauthority
-  fi
+if [ "$DISPLAY" != "" ] && [ -e "$HOME/.Xauthority" ] && [ "$XAUTHORITY" = "" ]; then
+    export XAUTHORITY=$HOME/.Xauthority
 fi
 
 WAYLAND_DISPLAY="${wayland_display}" ubuntu-frame&
