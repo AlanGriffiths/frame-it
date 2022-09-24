@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+shell="$(snapctl get shell)"
+
 print_help() {
   echo " . . . .: Please run the following:"
   echo "  sudo --preserve-env=XAUTHORITY,DISPLAY $SNAP_INSTANCE_NAME.root-on-x11"
@@ -32,9 +34,9 @@ fi
 xauthority_copy="${HOME}/.Xauthority"
 
 if [ ! -e "$(dirname "${xauthority_copy}")" ]; then
-  ubuntu-frame --help > /dev/null 2>&1 || true
+  "${shell:-ubuntu-frame}" --help > /dev/null 2>&1 || true
 fi
 
 cp "${XAUTHORITY}" "${xauthority_copy}"
-XAUTHORITY=${xauthority_copy} ubuntu-frame --platform-display-libs mir:x11 --platform-rendering-libs mir:x11
+XAUTHORITY=${xauthority_copy} "${shell:-ubuntu-frame}" --platform-display-libs mir:x11 --platform-rendering-libs mir:x11
 rm "${xauthority_copy}"
