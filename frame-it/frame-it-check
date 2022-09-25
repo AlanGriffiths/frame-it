@@ -1,22 +1,24 @@
 #!/bin/sh
 set -u
 
-echo "Checking: Ubuntu Frame installation (needed for all commands)"
-if ! command -v ubuntu-frame > /dev/null
+shell="$(snapctl get shell)"
+
+echo "Checking: "${shell:-Ubuntu Frame}" installation (needed for all commands)"
+if ! command -v "${shell:-ubuntu-frame}" > /dev/null
 then
-  echo " WARNING: Ubuntu Frame NOT installed. Please run the following:"
-  echo "  sudo snap install ubuntu-frame"
+  echo " WARNING: "${shell:-Ubuntu Frame}" NOT installed. Please run the following:"
+  echo "  sudo snap install "${shell:-ubuntu-frame}""
 else
-  echo " . OK . : Ubuntu Frame is installed"
+  echo " . OK . : "${shell:-Ubuntu Frame}" is installed"
 fi
 
-echo "Checking: Ubuntu Frame has login-session-control (needed to run a login shell)"
-if ! snap connections ubuntu-frame | grep " :login-session-control" > /dev/null
+echo "Checking: "${shell:-Ubuntu Frame}" has login-session-control (needed to run a login shell)"
+if ! snap connections "${shell:-ubuntu-frame}" | grep " :login-session-control" > /dev/null
 then
-  echo " WARNING: ubuntu-frame:login-session-control NOT connected. Please run the following:"
-  echo "  sudo snap connect ubuntu-frame:login-session-control"
+  echo " WARNING: "${shell:-ubuntu-frame}":login-session-control NOT connected. Please run the following:"
+  echo "  sudo snap connect "${shell:-ubuntu-frame}":login-session-control"
 else
-  echo " . OK . : ubuntu-frame:login-session-control is connected"
+  echo " . OK . : "${shell:-ubuntu-frame}":login-session-control is connected"
 fi
 
 echo "Checking: shell-app option (needed for ${SNAP_INSTANCE_NAME}.shell and to run a login shell)"
