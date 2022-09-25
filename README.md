@@ -90,3 +90,14 @@ That creates a user that signs in without a password, but it will sign into the 
 And that’s it!
 
 We now have a new “kodi” user on the computer, and when that user is selected on the logon screen you, or your family, are taken straight to Kodi. And when you exit Kodi you are logged out.
+
+## Testing with alternative shells
+
+When developing Ubuntu Frame it is often convenient to use alternative installations, for example (using snapd's experimental "parallel install":
+```plain
+snap install --beta ubuntu-frame_beta
+```
+To support this it is possible to configure Ubuntu Frame to use an alternative shell using a snap configuration option:
+```plain
+snap set frame-it shell=ubuntu-frame_beta
+```
