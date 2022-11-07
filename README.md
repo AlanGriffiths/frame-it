@@ -54,6 +54,8 @@ Next we check the setup:
     sudo snap connect ubuntu-frame:login-session-control
     Checking: shell-app option (needed for frame-it.shell and to run a login shell)
     . OK . : shell-app is set (to 'mir-kiosk-kodi') and can be found
+    Checking: osk option
+    . OK . : "osk" is unset
 
 From this we see a WARNING that asking us to connect `ubuntu-frame:login-session-control`, so we do that now:
 
@@ -92,7 +94,9 @@ And that’s it!
 
 We now have a new “kodi” user on the computer, and when that user is selected on the logon screen you, or your family, are taken straight to Kodi. And when you exit Kodi you are logged out.
 
-## Testing with alternative shells
+## Advanced options
+
+### Using alternative shells
 
 When developing Ubuntu Frame it is often convenient to use alternative installations, for example (using snapd's experimental "parallel install":
 ```plain
@@ -102,3 +106,34 @@ To support this it is possible to configure Ubuntu Frame to use an alternative s
 ```plain
 snap set frame-it shell=ubuntu-frame_beta
 ```
+
+### Adding an OSK
+
+Ubuntu Frame supports an "on screen keyboard" and this can be used with frame-it:
+
+    $ sudo snap set frame-it osk=enable
+
+Next we check the setup:
+
+    $ frame-it.check
+    Checking: Ubuntu Frame installation (needed for all commands)
+    . OK . : Ubuntu Frame is installed
+    Checking: Ubuntu Frame has login-session-control (needed to run a login shell)
+    WARNING: ubuntu-frame:login-session-control NOT connected. Please run the following:
+    sudo snap connect ubuntu-frame:login-session-control
+    Checking: shell-app option (needed for frame-it.shell and to run a login shell)
+    WARNING: shell-app not set. Please run the following (with the app you choose):
+    snap set frame-it shell-app=...
+    Checking: osk option
+    WARNING: "osk" is "enabled", but ubuntu-frame-osk not installed. Please run the following:
+    sudo snap install ubuntu-frame-osk
+    sudo snap connect ubuntu-frame-osk:wayland
+
+From this we see a WARNING that asking us to install `ubuntu-frame-osk`, so we do that now:
+
+    $ sudo snap install ubuntu-frame-osk
+    $ sudo snap connect ubuntu-frame-osk:wayland
+
+Now when we use frame-it it will run the OSK as well as Frame and the chosen application:
+
+    $ frame-it gedit
