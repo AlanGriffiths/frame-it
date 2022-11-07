@@ -13,3 +13,18 @@ if [ "$shell_app" != "" ]; then
 else
   rm -f "/usr/share/wayland-sessions/${SNAP_INSTANCE_NAME}.desktop"
 fi
+
+shell_osk="$(snapctl get osk)"
+
+if [ "$shell_osk" != "" ]; then
+  case "$shell_osk" in
+
+  enable)
+    ;;
+  disable)
+    ;;
+  *) echo 'osk must be "enable" or "disable"'
+    exit 1
+   ;;
+  esac
+fi

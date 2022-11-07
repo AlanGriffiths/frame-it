@@ -31,3 +31,32 @@ elif ! command -v "${shell_app%% *}" > /dev/null; then
 else
   echo " . OK . : shell-app is set (to '${shell_app}') and can be found"
 fi
+
+echo "Checking: osk option"
+shell_osk="$(snapctl get osk)"
+if [ "$shell_osk" != "" ]; then
+  case "$shell_osk" in
+
+  enable)
+    if ! command -v ubuntu-frame-osk > /dev/null; then
+      echo ' WARNING: "osk" is "enabled", but ubuntu-frame-osk not installed. Please run the following:'
+      echo "  sudo snap install ubuntu-frame-osk"
+      echo "  sudo snap connect ubuntu-frame-osk:wayland"
+    else
+      if ! snap connections ubuntu-frame-osk | grep " :wayland" > /dev/null; then
+        echo " WARNING: ubuntu-frame-osk:wayland NOT connected. Please run the following:"
+        echo "  sudo snap connect ubuntu-frame-osk:wayland"
+      else
+        echo ' . OK . : "osk" is "enabled" and set and "ubuntu-frame-osk" can be found'
+      fi
+    fi
+    ;;
+  disable)
+      echo ' . OK . : "osk" is "disable"'
+    ;;
+  *) echo ' WARNING: "osk" must be "enable" or "disable"'
+   ;;
+  esac
+else
+  echo ' . OK . : "osk" is unset'
+fi
