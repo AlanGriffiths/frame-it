@@ -94,7 +94,9 @@ And that’s it!
 
 We now have a new “kodi” user on the computer, and when that user is selected on the logon screen you, or your family, are taken straight to Kodi. And when you exit Kodi you are logged out.
 
-## Testing with alternative shells
+## Advanced options
+
+### Using alternative shells
 
 When developing Ubuntu Frame it is often convenient to use alternative installations, for example (using snapd's experimental "parallel install":
 ```plain
@@ -105,7 +107,7 @@ To support this it is possible to configure Ubuntu Frame to use an alternative s
 snap set frame-it shell=ubuntu-frame_beta
 ```
 
-## Adding an OSK
+### Adding an OSK
 
 Ubuntu Frame supports an "on screen keyboard" and this can be used with frame-it:
 
@@ -135,4 +137,3 @@ From this we see a WARNING that asking us to install `ubuntu-frame-osk`, so we d
 Now when we use frame-it it will run the OSK as well as Frame and the chosen application:
 
     $ frame-it gedit
-
