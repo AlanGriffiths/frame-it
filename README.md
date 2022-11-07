@@ -80,7 +80,7 @@ That creates a user that signs in without a password, but it will sign into the 
 
     $ sudo sh -c "cat > /var/lib/AccountsService/users/kodi"
     [User]
-    XSession=frame-it
+    Session=frame-it
     Icon=/home/kodi/.face
     SystemAccount=false
     ^D
