@@ -60,3 +60,14 @@ if [ "$shell_osk" != "" ]; then
 else
   echo ' . OK . : "osk" is unset'
 fi
+
+echo "Checking: vnc-viewer option (needed for ${SNAP_INSTANCE_NAME}.vnc)"
+vnc_viewer="$(snapctl get vnc-viewer)"
+if [ "vnc_viewer" = "" ]; then
+  echo " WARNING: vnc-viewer not set. Please run the following (with the app you choose):"
+  echo "  snap set ${SNAP_INSTANCE_NAME} vnc-viewer=..."
+elif ! command -v "${vnc_viewer%% *}" > /dev/null; then
+    echo " WARNING: vnc-viewer not installed: ${vnc_viewer}"
+else
+  echo " . OK . : vnc-viewer is set (to '${vnc_viewer}') and can be found"
+fi

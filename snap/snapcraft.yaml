@@ -1,6 +1,6 @@
 name: frame-it
 base: core20
-version: '1.1'
+version: '1.2'
 summary: Utilities for working with Ubuntu Frame on desktop systems
 description: |
   *frame-it* makes it easy to use Ubuntu Frame on the desktop:
@@ -10,6 +10,7 @@ description: |
   * `snap set frame-it shell-app=gnome-calendar` sets the `shell-app` option
   * `frame-it.shell` will run Ubuntu Frame using the `shell-app` option
   * `sudo frame-it.root-on-x11` will run Ubuntu Frame as root using X11
+  * `frame-it.vnc user@host` will connect to a remote host and run a VNC client
 
   When `shell-app` is set a login shell is provided from the greeter: Logging 
   into "frame-it" will run Ubuntu Frame using the `shell-app` option as a user
@@ -27,6 +28,9 @@ apps:
 
   shell:
     command: frame-it-shell
+
+  vnc:
+    command: frame-it-vnc
 
   root-on-x11:
     command: frame-it-root-on-x11
