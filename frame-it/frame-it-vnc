@@ -1,5 +1,5 @@
 #!/bin/sh
-set -ex
+set -eu
 
 vnc_viewer="$(snapctl get vnc-viewer)"
 vnc_port="$(snapctl get vnc-port)"
