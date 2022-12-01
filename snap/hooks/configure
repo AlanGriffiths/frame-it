@@ -32,5 +32,5 @@ fi
 vnc_viewer="$(snapctl get vnc-viewer)"
 snapctl set vnc-viewer="${vnc_viewer:-gvncviewer}"
 
-vnc_port="$(snapctl get vnc-port)"
-snapctl set vnc-port="${vnc_port:-00}"
+vnc_display="$(snapctl get vnc-display)"
+snapctl set vnc-display="${vnc_display:-00}"

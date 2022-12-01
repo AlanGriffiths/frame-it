@@ -2,9 +2,10 @@
 set -eu
 
 vnc_viewer="$(snapctl get vnc-viewer)"
-vnc_port="$(snapctl get vnc-port)"
+vnc_display="$(snapctl get vnc-display)"
 
-ssh -T -L "59${vnc_port:-00}:localhost:5900" -N "$@"&
-ssh_pid=$!
-"${vnc_viewer:-gvncviewer}" "localhost:${vnc_port:-00}"
-kill "${ssh_pid}"
+# We `sleep 3` as a hack so that ssh will tidy up after use. It gives
+# time for the viewer to grab the tunnel and hold the connection open.
+# The alternative `-N` would leave the tunnel open.
+ssh -T -L "59${vnc_display:-00}:localhost:5900" -f "$@" "sleep 3"
+"${vnc_viewer:-gvncviewer}" "localhost:${vnc_display:-00}"
