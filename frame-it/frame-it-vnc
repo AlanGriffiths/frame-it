@@ -1,9 +1,10 @@
-#!/bin/bash
+#!/bin/sh
+set -ex
 
 vnc_viewer="$(snapctl get vnc-viewer)"
 vnc_port="$(snapctl get vnc-port)"
 
-ssh -T -L "${vnc_port:-5900}:localhost:5900" "$@" -- "sleep infinity"&
+ssh -T -L "59${vnc_port:-00}:localhost:5900" -N "$@"&
 ssh_pid=$!
-"${vnc_viewer:-gvncviewer}" localhost
+"${vnc_viewer:-gvncviewer}" "localhost:${vnc_port:-00}"
 kill "${ssh_pid}"
