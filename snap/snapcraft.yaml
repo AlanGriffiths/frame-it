@@ -1,5 +1,5 @@
 name: frame-it
-base: core20
+base: core22
 version: '1.2'
 summary: Utilities for working with Ubuntu Frame on desktop systems
 description: |
@@ -42,4 +42,4 @@ parts:
 
 architectures:
   - build-on: amd64
-    run-on: all
+    build-for: all
