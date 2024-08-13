@@ -1,6 +1,6 @@
 name: frame-it
 base: core24
-version: '1.2'
+version: '24.08'
 summary: Utilities for working with Ubuntu Frame on desktop systems
 description: |
   *frame-it* makes it easy to use Ubuntu Frame on the desktop:
