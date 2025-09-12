@@ -1,0 +1,59 @@
+#!/bin/bash
+
+if ! command -v "mir-x11-kiosk" > /dev/null; then
+    echo " ERROR: mir-x11-kiosk not installed"
+    exit 1
+fi
+
+shell="$(snapctl get shell)"
+
+wayland_display=${WAYLAND_DISPLAY:-wayland-0}
+
+if [ -O "${XDG_RUNTIME_DIR}/${wayland_display}" ]; then
+  # Choose a (new) WAYLAND_DISPLAY
+	
+  port=0
+  while [ -e "${XDG_RUNTIME_DIR}/wayland-${port}" ]; do
+    ((port+=1))
+  done
+  wayland_display=wayland-${port}
+fi
+
+if [ "$DISPLAY" != "" ] && [ -e "$HOME/.Xauthority" ] && [ "$XAUTHORITY" = "" ]; then
+    export XAUTHORITY=$HOME/.Xauthority
+fi
+
+WAYLAND_DISPLAY="${wayland_display}" "${shell:-ubuntu-frame}"&
+
+until [ -O "${XDG_RUNTIME_DIR}/${wayland_display}" ]; do
+  if command -v ionotifywait &> /dev/null; then
+    inotifywait -qq --timeout 5 --event create "${XDG_RUNTIME_DIR}"
+  else
+    sleep 1
+  fi
+done
+
+# With mir-x11-kiosk we will get the display saved to this file
+x11_display_file=$(mktemp --tmpdir="${XDG_RUNTIME_DIR}")
+
+# Start mir-x11-kiosk with the chosen wayland-host
+env -u WAYLAND_DISPLAY -u DISPLAY mir-x11-kiosk --wayland-host=${wayland_display}  --x11-displayfd 5 5>${x11_display_file}&
+
+if inotifywait -qq --timeout 5 --event close_write "${x11_display_file}" && [ -s "${x11_display_file}" ]
+then
+  # ${x11_display_file} contains the X11 display
+  x11_display=:$(cat "${x11_display_file}")
+  rm "${x11_display_file}"
+else
+  echo "ERROR: Failed to get X11 display from ${miral_server}"
+  rm "${x11_display_file}"
+  kill %1 %2
+  exit 1
+fi
+
+if [ "$(snapctl get osk)" == "enable" ]; then
+  WAYLAND_DISPLAY="${wayland_display}" ubuntu-frame-osk&
+fi
+
+DISPLAY="${x11_display}" SDL_VIDEODRIVER=x11 QT_QPA_PLATFORM=xcb GDK_BACKEND=x11 $@
+kill %1 %2
