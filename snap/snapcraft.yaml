@@ -1,12 +1,13 @@
 name: frame-it
 base: core24
-version: '24.08'
+version: '25.09'
 summary: Utilities for working with Ubuntu Frame on desktop systems
 description: |
   *frame-it* makes it easy to use Ubuntu Frame on the desktop:
   
   * `frame-it.check` checks Ubuntu Frame is installed plus options frame-it uses
   * `frame-it gnome-calendar` will run `gnome-calendar` using Ubuntu Frame
+  * `frame-it.x11 xeyes` will run `xeyes` using Ubuntu Frame
   * `snap set frame-it shell-app=gnome-calendar` sets the `shell-app` option
   * `frame-it.shell` will run Ubuntu Frame using the `shell-app` option
   * `sudo frame-it.root-on-x11` will run Ubuntu Frame as root using X11
@@ -34,6 +35,9 @@ apps:
 
   root-on-x11:
     command: frame-it-root-on-x11
+
+  x11:
+    command: frame-it-x11
 
 parts:
   frame-it:
