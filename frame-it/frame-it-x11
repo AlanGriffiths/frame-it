@@ -47,7 +47,7 @@ then
 else
   echo "ERROR: Failed to get X11 display from ${miral_server}"
   rm "${x11_display_file}"
-  kill %2; sleep 1; kill %1
+  kill %2; wait %2; kill %1
   exit 1
 fi
 
@@ -56,5 +56,5 @@ if [ "$(snapctl get osk)" == "enable" ]; then
 fi
 
 DISPLAY="${x11_display}" SDL_VIDEODRIVER=x11 QT_QPA_PLATFORM=xcb GDK_BACKEND=x11 $@
-kill %2; sleep 1; kill %1
+kill %2; wait %2; kill %1
 exit 0
