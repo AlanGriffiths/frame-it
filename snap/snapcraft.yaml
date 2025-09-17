@@ -45,6 +45,7 @@ parts:
     source: frame-it
 
 platforms:
-  all:
-    build-on: amd64
-    build-for: [all]
+  amd64:
+  arm64:
+  armhf:
+  riscv64:
